@@ -1,9 +1,9 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import {theme} from './src/styles/theme';
 
 import HomeScreen from './src/Home';
 import DetailScreen from './src/Detail';
+import Cart from './src/Cart';
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -17,6 +17,13 @@ const AppNavigator = createStackNavigator({
     screen: DetailScreen,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.title}`,
+      headerBackTitle: true,
+    }),
+  },
+  Cart: {
+    screen: Cart,
+    navigationOptions: ({ navigation }) => ({
+      title: `购物车`,
       headerBackTitle: true,
     }),
   },

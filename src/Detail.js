@@ -101,7 +101,10 @@ export default class Detail extends Component {
 						<Text>{`  收藏`}</Text>
 					</TouchableOpacity>
 					<View style={{width:1,backgroundColor:'#d4d4d4'}}/>
-					<TouchableOpacity style={{flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+					<TouchableOpacity
+						style={{flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
+						onPress={()=>{this.props.navigation.navigate('Cart');}}
+					>
 						<Icon name={'ios-cart'} type='ionicon' size={22} color={'#1e90ff'}/>
 						<Text>{`  加入购物车`}</Text>
 					</TouchableOpacity>
