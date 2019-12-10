@@ -3,12 +3,13 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	SafeAreaView,
+	Image,
 	TouchableOpacity,
-	Keyboard
+	ScrollView,
+	Keyboard,
 } from 'react-native';
 
-import {SearchBar,Icon,ButtonGroup} from 'react-native-elements';
+import {SearchBar, Icon, ButtonGroup, Card, ListItem, Button} from 'react-native-elements';
 
 export default class Home extends Component {
 	constructor(props) {
@@ -16,7 +17,19 @@ export default class Home extends Component {
 		this.state = {
 			search: '',
 			selectedIndex: 0,
-			buttons: ['Hello', 'World', 'Buttons']
+			buttons: ['服饰', '电器', '3C数码', '文具', '生活用品'],
+			goodList: [
+				{gid:'1',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'2',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'3',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'4',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'5',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'6',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'7',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'8',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'9',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'10',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+			],
 		};
 		this.keyboardIsShow = false;
 	}
@@ -36,7 +49,7 @@ export default class Home extends Component {
 	};
 
 	updateIndex = (selectedIndex) => {
-		this.setState({selectedIndex})
+		this.setState({selectedIndex});
 	};
 
 	_keyboardDidShow = () => {
@@ -48,51 +61,69 @@ export default class Home extends Component {
 	};
 
 	render() {
-		const {search,buttons,selectedIndex} = this.state;
+		const {search, buttons, selectedIndex, goodList} = this.state;
 		return (
-				<View style={styles.container}>
-					{/* 搜索框 */}
-					<SearchBar
-						ref={search => this.search = search}
-						placeholder="请输入搜索商品名称"
-						onChangeText={this.updateSearch}
-						searchIcon={() => <Icon name={'ios-search'} type='ionicon' size={20}/>}
-						clearIcon={() => <Icon name={'ios-close-circle-outline'} type='ionicon' size={20} onPress={()=>{
-							this.search.clear();
-						}}/>}
-						inputStyle={{backgroundColor: '#ffffff'}}
-						inputContainerStyle={{backgroundColor: '#ffffff'}}
-						containerStyle={{
-							borderWidth: 1,
-							borderRadius: 5,
-							height: 44,
-							padding: 0,
-							margin: 15,
-						}}
-						value={search}
+			<View style={styles.container}>
+				{/* 搜索框 */}
+				<SearchBar
+					ref={search => this.search = search}
+					placeholder="请输入搜索商品名称"
+					onChangeText={this.updateSearch}
+					searchIcon={() => <Icon name={'ios-search'} type='ionicon' size={20}/>}
+					clearIcon={() => <Icon name={'ios-close-circle-outline'} type='ionicon' size={20} onPress={() => {
+						this.search.clear();
+					}}/>}
+					inputStyle={{backgroundColor: '#ffffff'}}
+					inputContainerStyle={{backgroundColor: '#ffffff'}}
+					containerStyle={{
+						borderWidth: 1,
+						borderRadius: 5,
+						height: 44,
+						padding: 0,
+						marginLeft: 15,
+						marginTop: 15,
+						marginRight: 15,
+						marginBottom: 8,
+					}}
+					value={search}
+				/>
+				<View style={{flex: 1}}>
+					<ButtonGroup
+						onPress={this.updateIndex}
+						selectedIndex={selectedIndex}
+						buttons={buttons}
+						containerStyle={{height: 30, marginLeft: 15, marginRight: 15}}
 					/>
-					<TouchableOpacity
-						onPress={() => {
-							if(this.keyboardIsShow){
-								this.search.blur();
-							}else{
-								this.props.navigation.navigate('Detail');
-							}
-						}}
-					>
-						<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-							<ButtonGroup
-								onPress={this.updateIndex}
-								selectedIndex={selectedIndex}
-								buttons={buttons}
-								containerStyle={{height: 100}}
-							/>
-							<Text>
-								{'首页1'}
-							</Text>
-						</View>
-					</TouchableOpacity>
+					<ScrollView style={{flex:1,}}>
+						{goodList.map((gItem,index)=>{
+							return(
+								<Card
+									key={gItem.gid}
+									// title='HELLO WORLD'
+									image={require('../images/goods1.png')}
+									imageProps={{resizeMode:'contain'}}
+								>
+									<Text style={{marginBottom: 10}}>
+										{gItem.info}
+									</Text>
+									<Button
+										icon={<Icon name='ios-information-circle-outline' type='ionicon' color='#ffffff' size={20}/>}
+										buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+										title=' 查看详情'
+										onPress={() => {
+											if (this.keyboardIsShow) {
+												this.search.blur();
+											} else {
+												this.props.navigation.navigate('Detail',{gId:gItem.gid});
+											}
+										}}
+									/>
+								</Card>
+							)
+						})}
+					</ScrollView>
 				</View>
+			</View>
 		);
 	}
 }
