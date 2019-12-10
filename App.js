@@ -1,5 +1,6 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import {theme} from './src/styles/theme';
 
 import HomeScreen from './src/Home';
 import DetailScreen from './src/Detail';
@@ -15,7 +16,7 @@ const AppNavigator = createStackNavigator({
   Detail: {
     screen: DetailScreen,
     navigationOptions: ({ navigation }) => ({
-      title: `详情页`,
+      title: `${navigation.state.params.title}`,
       headerBackTitle: true,
     }),
   },
@@ -24,6 +25,7 @@ const AppNavigator = createStackNavigator({
   defaultNavigationOptions: {  // 屏幕导航的默认选项, 也可以在组件内用 static navigationOptions 设置(会覆盖此处的设置)
     // title:'消息',
     // header: null,
+    // headerStyle:{backgroundColor:'tomato'},
     gesturesEnabled: false,
 
   },

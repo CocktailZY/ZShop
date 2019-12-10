@@ -8,6 +8,7 @@ import {
 	ScrollView,
 	Keyboard,
 } from 'react-native';
+import {theme} from "./styles/theme";
 
 import {SearchBar, Icon, ButtonGroup, Card, ListItem, Button} from 'react-native-elements';
 
@@ -19,16 +20,16 @@ export default class Home extends Component {
 			selectedIndex: 0,
 			buttons: ['服饰', '电器', '3C数码', '文具', '生活用品'],
 			goodList: [
-				{gid:'1',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'2',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'3',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'4',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'5',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'6',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'7',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'8',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'9',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
-				{gid:'10',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套'},
+				{gid:'1',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'2',info: '圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'3',info: '卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'4',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'5',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'6',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'7',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'8',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'9',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'10',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
 			],
 		};
 		this.keyboardIsShow = false;
@@ -63,7 +64,7 @@ export default class Home extends Component {
 	render() {
 		const {search, buttons, selectedIndex, goodList} = this.state;
 		return (
-			<View style={styles.container}>
+			<View style={[styles.container,theme.themeBgColor]}>
 				{/* 搜索框 */}
 				<SearchBar
 					ref={search => this.search = search}
@@ -73,8 +74,8 @@ export default class Home extends Component {
 					clearIcon={() => <Icon name={'ios-close-circle-outline'} type='ionicon' size={20} onPress={() => {
 						this.search.clear();
 					}}/>}
-					inputStyle={{backgroundColor: '#ffffff'}}
-					inputContainerStyle={{backgroundColor: '#ffffff'}}
+					inputStyle={theme.themeBgColor}
+					inputContainerStyle={theme.themeBgColor}
 					containerStyle={{
 						borderWidth: 1,
 						borderRadius: 5,
@@ -114,7 +115,7 @@ export default class Home extends Component {
 											if (this.keyboardIsShow) {
 												this.search.blur();
 											} else {
-												this.props.navigation.navigate('Detail',{gId:gItem.gid});
+												this.props.navigation.navigate('Detail',{goodItem:gItem,title: gItem.info});
 											}
 										}}
 									/>
@@ -130,6 +131,5 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#ffffff',
 	},
 });
