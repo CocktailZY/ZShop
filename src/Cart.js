@@ -21,7 +21,7 @@ const list = [
 		avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
 		subtitle: 'Vice Chairman'
 	},
-	... // more items
+	// ... // more items
 ]
 export default class Cart extends Component {
 	constructor(props) {
