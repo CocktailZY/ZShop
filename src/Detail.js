@@ -41,6 +41,15 @@ export default class Detail extends Component {
 
 	}
 
+	_addToCollection = () => {
+		// TODO 执行保存收藏方法
+		let tgoodItem = {...this.state.goodItem};
+		tgoodItem.fav = !tgoodItem.fav;
+		this.setState({
+			goodItem: tgoodItem
+		});
+	}
+
 	render() {
 		const {goodItem} = this.state;
 		return (
@@ -59,10 +68,10 @@ export default class Detail extends Component {
 						<Text style={{
 							color: '#333333',
 							fontSize: 18,
-						}}>{`尺寸: 均码\t\t面料: 其他\n风格: 韩版女裤\t\t腰高: 高腰\n颜色分类: 杏色 深灰色 黑色 粉色\n成分含量: 51%(含)-70%(含)\n年份季节: 2019年秋季\n厚薄: 薄款\t\t服装款式: 口袋\n裤长: 九分裤女裤 裤型: 灯笼裤`}</Text>
+						}}>{`是多年草本球根类植物，鳞茎卵形，有膜质外皮，皮膜颜色与花色成正相关，未开花时形如大蒜，原产地中海沿岸及小亚细亚一带，是研究发现的会开花的植物中最香的一个品种。喜阳光充足和比较湿润的生长环境，要求排水良好和肥沃的沙壤土等。`}</Text>
 					</View>
-					<Divider style={{height:1, marginTop: 15}}/>
-					<View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop:10}}>
+					{/*<Divider style={{height:1, marginTop: 15}}/>*/}
+					{/*<View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop:10}}>
 						{gColor.map((colorItem, index) => {
 							return (
 								<TouchableOpacity key={colorItem.color} style={{
@@ -79,7 +88,7 @@ export default class Detail extends Component {
 								</TouchableOpacity>
 							);
 						})}
-					</View>
+					</View>*/}
 				</ScrollView>
 				<Divider style={{marginBottom: 45}}/>
 				{/* 底部工具条 */}
@@ -91,13 +100,11 @@ export default class Detail extends Component {
 					flexDirection: 'row',
 					backgroundColor:'#ffffff'
 				}}>
-					<TouchableOpacity style={{
-						flex: 1,
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}>
-						<Icon name={goodItem.fav ? 'favorite' : 'favorite-border'} type='material' size={22} color={'#1e90ff'}/>
+					<TouchableOpacity
+						style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
+						onPress={()=>{this._addToCollection();}}
+					>
+						<Icon name={goodItem.fav ? 'favorite' : 'favorite-border'} type='material' size={22} color={'#2089DC'}/>
 						<Text>{`  收藏`}</Text>
 					</TouchableOpacity>
 					<View style={{width:1,backgroundColor:'#d4d4d4'}}/>
@@ -105,7 +112,7 @@ export default class Detail extends Component {
 						style={{flex: 2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
 						onPress={()=>{this.props.navigation.navigate('Cart');}}
 					>
-						<Icon name={'ios-cart'} type='ionicon' size={22} color={'#1e90ff'}/>
+						<Icon name={'ios-cart'} type='ionicon' size={22} color={'#2089DC'}/>
 						<Text>{`  加入购物车`}</Text>
 					</TouchableOpacity>
 

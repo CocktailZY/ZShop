@@ -13,17 +13,32 @@ import {theme} from "./styles/theme";
 import {SearchBar, Icon, ButtonGroup, Card, ListItem, Button} from 'react-native-elements';
 
 export default class Home extends Component {
+	// static navigationOptions = ({navigation, screenProps}) => {
+	// 	return ({
+	// 		// title: '首页',
+	// 		// headerBackImage:(
+	// 		// 	<Icons name={'ios-arrow-back'} size={30} color={'#FFFFFF'}/>
+	// 		// ),
+	// 		headerLeft: (
+	// 			<TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:'tomato'}} onPress={()=>{
+	// 				this.props.navigation.openDrawer();
+	// 			}}>
+	// 				<Icon name={'ios-menu'} type='ionicon' size={24}/>
+	// 			</TouchableOpacity>
+	// 		),
+	// 	})
+	// };
 	constructor(props) {
 		super(props);
 		this.state = {
 			search: '',
 			selectedIndex: 0,
-			buttons: ['服饰', '电器', '3C数码', '文具', '生活用品'],
+			buttons: ['玫瑰', '牡丹', '桃花', '梨花', '仙人掌','风信子'],
 			goodList: [
-				{gid:'1',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'2',info: '圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'3',info: '卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'4',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid:'1',info: '风信子极早花种，阿姆斯特丹（Amsterdam）花红色',fav:false},
+				{gid:'2',info: '风信子早花种，安娜·玛丽（AnnaMarie）花粉红色',fav:false},
+				{gid:'3',info: '风信子中花种，德比夫人（LadyDerby）',fav:false},
+				{gid:'4',info: '风信子晚花种，吉普赛女王（GipsyQueen）花橙色',fav:false},
 				{gid:'5',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
 				{gid:'6',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
 				{gid:'7',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
