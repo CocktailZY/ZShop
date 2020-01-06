@@ -53,9 +53,7 @@ export default class Users extends Component {
 					animationType="slide"
 					transparent={true}
 					visible={this.state.showEditor}
-					onRequestClose={() => {
-						alert("Modal has been closed.");
-					}}
+					onRequestClose={() => {}}
 				>
 					<View style={{flex:1,backgroundColor:'rgba(0,0,0,0.6)',justifyContent:'center',alignItems:'center'}}>
 						<View style={{width: '80%',height: 300,backgroundColor:'#ffffff'}}>
