@@ -92,7 +92,7 @@ export default class Cart extends Component {
 					<TouchableOpacity
 						style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
 						onPress={() => {
-							this.props.navigation.navigate('Cart');
+							this.props.navigation.push('Order');
 						}}
 					>
 						<Icon name={'checkcircleo'} type='antdesign' size={22} color={'#ffffff'}/>

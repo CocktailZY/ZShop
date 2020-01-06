@@ -12,6 +12,7 @@ import {theme} from "./styles/theme";
 
 import {SearchBar, Icon, ButtonGroup, Card, ListItem, Button} from 'react-native-elements';
 
+let oldGoodList = [];
 export default class Home extends Component {
 	// static navigationOptions = ({navigation, screenProps}) => {
 	// 	return ({
@@ -51,6 +52,7 @@ export default class Home extends Component {
 	}
 
 	componentDidMount() {
+		oldGoodList = [...this.state.goodList];
 		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
 	}
@@ -61,7 +63,13 @@ export default class Home extends Component {
 	}
 
 	updateSearch = search => {
-		this.setState({search});
+		this.setState({search},()=>{
+			// TODO 根据搜索条件搜索
+			let newArr = this.state.goodList.filter(item => item.info.indexOf(search) != -1);
+			this.setState({
+				goodList: search == '' ? oldGoodList : newArr
+			});
+		});
 	};
 
 	updateIndex = (selectedIndex) => {
