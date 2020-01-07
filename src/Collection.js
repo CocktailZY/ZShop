@@ -72,6 +72,7 @@ export default class Collection extends Component {
 		return (
 			<View style={styles.container}>
 				<FlatList
+					keyExtractor={(item, index) => index.toString()}
 					renderItem={this._renderRow}
 					data={this.state.dataList}
 					ItemSeparatorComponent={()=><Divider/>}

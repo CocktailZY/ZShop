@@ -179,6 +179,7 @@ export default class Orders extends Component {
 					</View>
 				</View>
 				<FlatList
+					keyExtractor={(item, index) => index.toString()}
 					renderItem={this._renderRow}
 					data={orders.orderDetailList}
 					ItemSeparatorComponent={()=><Divider/>}

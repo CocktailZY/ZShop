@@ -3,10 +3,12 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 
 import LoginScreen from './src/Login';
-import HomeScreen from './src/Home';
 import DetailScreen from './src/Detail';
-import Cart from './src/Cart';
 import Orders from './src/Orders';
+
+import HomeScreen from './src/Home';
+import Cart from './src/Cart';
+import OrderList from './src/OrderList';
 import Collection from './src/Collection';
 import Users from './src/Users';
 
@@ -35,7 +37,7 @@ const DrawerNavigator = createDrawerNavigator({
 		}),
 	},
 	Order: {
-		screen: Cart,
+		screen: OrderList,
 		navigationOptions: ({navigation}) => ({
 			drawerLabel: '我的订单',
 			drawerIcon: ({ tintColor }) => (

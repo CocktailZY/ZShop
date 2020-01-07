@@ -64,7 +64,6 @@ export default class Users extends Component {
 										this._setEdit(text);
 									}}
 									editable={this.state.editorType == 'account' ? false : true}
-									underlineColorAndroid={this.state.editorType == 'account' ? 'transparent': '#d4d4d4'}
 									keyboardType={this.state.editorType == 'phone' || this.state.editorType == 'account'? 'number-pad':'default'}
 									value={tp}
 								/>

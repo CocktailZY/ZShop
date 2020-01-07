@@ -76,6 +76,7 @@ export default class Cart extends Component {
 		return (
 			<View style={styles.container}>
 				<FlatList
+					keyExtractor={(item, index) => index.toString()}
 					renderItem={this._renderRow.bind(this)}
 					data={this.state.dataSource}
 				/>
