@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Keyboard, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Keyboard, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {theme} from './styles/theme';
 
-import {Button, ButtonGroup, Card, Icon, SearchBar} from 'react-native-elements';
+import {Button, Card, Icon, SearchBar} from 'react-native-elements';
 import Path from './config';
 
 let oldGoodList = [];
@@ -26,26 +26,15 @@ export default class Home extends Component {
 		super(props);
 		this.state = {
 			search: '',
-			selectedIndex: 0,
-			buttons: ['玫瑰', '牡丹', '桃花', '梨花', '仙人掌', '风信子'],
-			goodList: [
-				{gid: '1', info: '风信子极早花种，阿姆斯特丹（Amsterdam）花红色', fav: false},
-				{gid: '2', info: '风信子早花种，安娜·玛丽（AnnaMarie）花粉红色', fav: false},
-				{gid: '3', info: '风信子中花种，德比夫人（LadyDerby）', fav: false},
-				{gid: '4', info: '风信子晚花种，吉普赛女王（GipsyQueen）花橙色', fav: false},
-				{gid: '5', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
-				{gid: '6', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
-				{gid: '7', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
-				{gid: '8', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
-				{gid: '9', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
-				{gid: '10', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
-			],
+			buttons: [],
+			goodList: [],
 		};
 		this.keyboardIsShow = false;
 	}
 
 	componentDidMount() {
 		this._getFlowerList();
+		this._getFlowerTypeList();
 		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
 	}
@@ -82,18 +71,61 @@ export default class Home extends Component {
 		});
 	};
 
+	_getFlowerTypeList = () => {
+		let url = Path + 'flowerType/listAll.do';
+		console.log(url);
+		fetch(Path + 'flowerType/listAll.do', {method: 'GET'}).then((response) => {
+			return response.json();
+		}).then((responseText) => {
+			console.log('鲜花类型列表');
+			console.log(responseText);
+			if (responseText.status == 'success') {
+				console.log(responseText.data);
+				responseText.data.map((item, index) => {
+					if (index === 0) {
+						item['checked'] = true;
+					} else {
+						item['checked'] = false;
+					}
+				});
+				this.setState({
+					buttons: responseText.data,
+				});
+			} else {
+				console.log('鲜花类型列表异常');
+			}
+		}).catch(error => {
+			console.log('鲜花类型列表异常：' + error);
+		});
+	};
+
 	updateSearch = search => {
 		this.setState({search}, () => {
 			// TODO 根据搜索条件搜索
-			let newArr = this.state.goodList.filter(item => item.info.indexOf(search) != -1);
+			let newArr = this.state.goodList.filter(item => item.name.indexOf(search) != -1);
 			this.setState({
 				goodList: search == '' ? oldGoodList : newArr,
 			});
 		});
 	};
 
-	updateIndex = (selectedIndex) => {
-		this.setState({selectedIndex});
+	_toSearch = (id, name) => {
+		let tBtns = [...this.state.buttons];
+		tBtns.map((item, index) => {
+			if (item.id === id) {
+				item['checked'] = true;
+			} else {
+				item['checked'] = false;
+			}
+		});
+		this.setState({search: name, buttons: tBtns}, () => {
+			// TODO 根据搜索条件搜索
+			let newArr = oldGoodList.filter(item => item.typeId === id);
+			this.setState({
+				goodList: newArr,
+				search: '',
+			});
+		});
 	};
 
 	_keyboardDidShow = () => {
@@ -132,19 +164,28 @@ export default class Home extends Component {
 					value={search}
 				/>
 				<View style={{flex: 1}}>
-					<ButtonGroup
-						onPress={this.updateIndex}
-						selectedIndex={selectedIndex}
-						buttons={buttons}
-						containerStyle={{height: 30, marginLeft: 15, marginRight: 15}}
-					/>
+					<View style={{height: 30, marginLeft: 15, marginRight: 15, marginBottom: 5, flexWrap: 'wrap'}}>
+						{this.state.buttons.map((typeItem, index) => {
+							return (
+								<TouchableOpacity
+									key={index}
+									style={{borderRadius: 4, margin: 5, padding: 5, backgroundColor: typeItem.checked ? '#2089DC' : '#7f8c8d'}}
+									onPress={() => {
+										this._toSearch(typeItem.id, typeItem.name);
+									}}
+								>
+									<Text style={{color: '#ffffff'}}>{typeItem.name}</Text>
+								</TouchableOpacity>
+							);
+						})}
+					</View>
 					<ScrollView style={{flex: 1}}>
 						{goodList.map((gItem, index) => {
 							return (
 								<Card
 									key={index}
 									// title='HELLO WORLD'
-									image={{uri: gItem.img}}
+									image={{uri: Path + gItem.img}}
 									imageProps={{resizeMode: 'contain'}}
 								>
 									<Text style={{marginBottom: 10}} numberOfLines={1}>

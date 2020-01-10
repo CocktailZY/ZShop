@@ -84,7 +84,7 @@ export default class OrderList extends Component {
 			}}>
 				<View style={{width: 100, height: 100, justifyContent: 'center', alignItems: 'center'}}>
 					<Image style={styles.imgStyle}
-						   source={{uri: item.image}}
+						   source={{uri: Path + item.image}}
 					/>
 				</View>
 				<View style={{flex: 1}}>

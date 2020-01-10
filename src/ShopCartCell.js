@@ -11,6 +11,7 @@ import {
 	DeviceEventEmitter
 } from 'react-native';
 import {Icon} from 'react-native-elements';
+import Path from './config';
 
 let pixel = PixelRatio.get();
 let screenW = Dimensions.get('window').width;
@@ -31,7 +32,7 @@ export default class ShopCarCell extends Component {
 		return (
 			<View style={styles.contentStyle}>
 				<Image style={styles.imgStyle}
-					   source={{uri: this.props.entity.img}}
+					   source={{uri: Path + this.props.entity.img}}
 				/>
 
 				<View style={{marginLeft: 10, justifyContent: 'space-around', height: 100}}>
