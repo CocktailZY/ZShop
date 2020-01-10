@@ -1,16 +1,9 @@
 import React, {Component} from 'react';
-import {
-	StyleSheet,
-	Text,
-	View,
-	Image,
-	TouchableOpacity,
-	ScrollView,
-	Keyboard,
-} from 'react-native';
-import {theme} from "./styles/theme";
+import {Keyboard, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {theme} from './styles/theme';
 
-import {SearchBar, Icon, ButtonGroup, Card, ListItem, Button} from 'react-native-elements';
+import {Button, ButtonGroup, Card, Icon, SearchBar} from 'react-native-elements';
+import Path from './config';
 
 let oldGoodList = [];
 export default class Home extends Component {
@@ -34,25 +27,25 @@ export default class Home extends Component {
 		this.state = {
 			search: '',
 			selectedIndex: 0,
-			buttons: ['玫瑰', '牡丹', '桃花', '梨花', '仙人掌','风信子'],
+			buttons: ['玫瑰', '牡丹', '桃花', '梨花', '仙人掌', '风信子'],
 			goodList: [
-				{gid:'1',info: '风信子极早花种，阿姆斯特丹（Amsterdam）花红色',fav:false},
-				{gid:'2',info: '风信子早花种，安娜·玛丽（AnnaMarie）花粉红色',fav:false},
-				{gid:'3',info: '风信子中花种，德比夫人（LadyDerby）',fav:false},
-				{gid:'4',info: '风信子晚花种，吉普赛女王（GipsyQueen）花橙色',fav:false},
-				{gid:'5',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'6',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'7',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'8',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'9',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
-				{gid:'10',info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套',fav:false},
+				{gid: '1', info: '风信子极早花种，阿姆斯特丹（Amsterdam）花红色', fav: false},
+				{gid: '2', info: '风信子早花种，安娜·玛丽（AnnaMarie）花粉红色', fav: false},
+				{gid: '3', info: '风信子中花种，德比夫人（LadyDerby）', fav: false},
+				{gid: '4', info: '风信子晚花种，吉普赛女王（GipsyQueen）花橙色', fav: false},
+				{gid: '5', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
+				{gid: '6', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
+				{gid: '7', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
+				{gid: '8', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
+				{gid: '9', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
+				{gid: '10', info: '2019新款秋冬加绒加厚套头圆领卫衣女打底衫韩版潮学生宽松外套', fav: false},
 			],
 		};
 		this.keyboardIsShow = false;
 	}
 
 	componentDidMount() {
-		oldGoodList = [...this.state.goodList];
+		this._getFlowerList();
 		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
 	}
@@ -62,12 +55,39 @@ export default class Home extends Component {
 		this.keyboardDidHideListener.remove();
 	}
 
+	_getFlowerList = () => {
+		let url = Path + 'flower/listAll.do';
+		console.log(url);
+		fetch(Path + 'flower/listAll.do', {method: 'GET'}).then((response) => {
+			return response.json();
+		}).then((responseText) => {
+			console.log('鲜花列表');
+			console.log(responseText);
+			if (responseText.status == 'success') {
+				console.log(responseText.data);
+				responseText.data.map((item, index) => {
+					item.img = item.img.substring(3, item.img.length);
+					console.log(item.img);
+				});
+				this.setState({
+					goodList: responseText.data,
+				}, () => {
+					oldGoodList = [...this.state.goodList];
+				});
+			} else {
+				console.log('获取鲜花列表异常');
+			}
+		}).catch(error => {
+			console.log('获取鲜花列表异常：' + error);
+		});
+	};
+
 	updateSearch = search => {
-		this.setState({search},()=>{
+		this.setState({search}, () => {
 			// TODO 根据搜索条件搜索
 			let newArr = this.state.goodList.filter(item => item.info.indexOf(search) != -1);
 			this.setState({
-				goodList: search == '' ? oldGoodList : newArr
+				goodList: search == '' ? oldGoodList : newArr,
 			});
 		});
 	};
@@ -87,7 +107,7 @@ export default class Home extends Component {
 	render() {
 		const {search, buttons, selectedIndex, goodList} = this.state;
 		return (
-			<View style={[styles.container,theme.themeBgColor]}>
+			<View style={[styles.container, theme.themeBgColor]}>
 				{/* 搜索框 */}
 				<SearchBar
 					ref={search => this.search = search}
@@ -118,17 +138,17 @@ export default class Home extends Component {
 						buttons={buttons}
 						containerStyle={{height: 30, marginLeft: 15, marginRight: 15}}
 					/>
-					<ScrollView style={{flex:1,}}>
-						{goodList.map((gItem,index)=>{
-							return(
+					<ScrollView style={{flex: 1}}>
+						{goodList.map((gItem, index) => {
+							return (
 								<Card
-									key={gItem.gid}
+									key={index}
 									// title='HELLO WORLD'
-									image={require('../images/goods1.png')}
-									imageProps={{resizeMode:'contain'}}
+									image={{uri: gItem.img}}
+									imageProps={{resizeMode: 'contain'}}
 								>
-									<Text style={{marginBottom: 10}}>
-										{gItem.info}
+									<Text style={{marginBottom: 10}} numberOfLines={1}>
+										{gItem.describes}
 									</Text>
 									<Button
 										icon={<Icon name='ios-information-circle-outline' type='ionicon' color='#ffffff' size={20}/>}
@@ -138,12 +158,12 @@ export default class Home extends Component {
 											if (this.keyboardIsShow) {
 												this.search.blur();
 											} else {
-												this.props.navigation.navigate('Detail',{goodItem:gItem,title: gItem.info});
+												this.props.navigation.navigate('Detail', {goodItem: gItem.id, title: gItem.name});
 											}
 										}}
 									/>
 								</Card>
-							)
+							);
 						})}
 					</ScrollView>
 				</View>

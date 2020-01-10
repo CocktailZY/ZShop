@@ -21,8 +21,8 @@ export default class ShopCarCell extends Component {
 		super(props);
 
 		this.state = {
-			disabled: this.props.entity.count == 0 ? true : false,
-			count: this.props.entity.count
+			disabled: this.props.entity.num == 0 ? true : false,
+			num: this.props.entity.num
 		}
 	}
 
@@ -31,12 +31,12 @@ export default class ShopCarCell extends Component {
 		return (
 			<View style={styles.contentStyle}>
 				<Image style={styles.imgStyle}
-					   source={{uri: this.props.entity.image}}
+					   source={{uri: this.props.entity.img}}
 				/>
 
 				<View style={{marginLeft: 10, justifyContent: 'space-around', height: 100}}>
 					<Text style={{fontSize: 18}}>{this.props.entity.name}</Text>
-					<Text style={{fontSize: 15, color: 'red', textAlign: 'left'}}>¥{this.props.entity.money}</Text>
+					<Text style={{fontSize: 15, color: 'red', textAlign: 'left'}}>¥{this.props.entity.price}</Text>
 				</View>
 
 				<View style={{position: 'absolute', right: 10, flexDirection: 'row'}}>
@@ -46,7 +46,7 @@ export default class ShopCarCell extends Component {
 						<Text style={styles.textStyle}>－</Text>
 					</TouchableOpacity>
 
-					<Text style={styles.textStyle}>{this.props.entity.count}</Text>
+					<Text style={styles.textStyle}>{this.props.entity.num}</Text>
 
 					<TouchableOpacity onPress={this._addGood.bind(this)}
 					>
@@ -76,19 +76,19 @@ export default class ShopCarCell extends Component {
 
 	//逻辑处理
 	_removeGood() {
-		let count = this.props.entity.count;
-		count -= 1;
+		let num = this.props.entity.num;
+		num -= 1;
 
 		let disabled = false;
-		if (count <= 1) {
-			count = 1;
+		if (num <= 1) {
+			num = 1;
 			disabled = true;
 		}
 
-		this.props.entity.count = count;
+		this.props.entity.num = num;
 
 		this.setState({
-			count: count,
+			num: num,
 			disabled: disabled
 		});
 
@@ -96,12 +96,13 @@ export default class ShopCarCell extends Component {
 	}
 
 	_addGood() {
-		let count = this.props.entity.count;
-		count += 1;
+		let num = this.props.entity.num;
+		console.log(num);
+		num += 1;
 		let disabled = false;
-		this.props.entity.count = count;
+		this.props.entity.num = num;
 		this.setState({
-			count: count,
+			num: num,
 			disabled: disabled
 		});
 		DeviceEventEmitter.emit('_addGood', this.props.entity);
